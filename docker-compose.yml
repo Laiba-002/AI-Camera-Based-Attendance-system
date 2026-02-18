@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  fastapi-attendance:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: attendance-api:2.0.0
+    container_name: attendance-api-prod
+    ports:
+      - "8000:8000"  # FastAPI API
+    volumes:
+      # Persistent data volumes (auto-created by enroll_from_api.py)
+      - ./attendance.db:/app/attendance.db              # Auto-created by enroll script
+      - ./vector_db:/app/vector_db                      # Auto-created by enroll script
+      - ./Employees Images:/app/Employees Images        # Auto-created by enroll script
+      - ./logs:/app/logs                                # Auto-created by container
+    environment:
+      # API Configuration
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      
+      # Performance Settings
+      - USE_GPU=False
+      - USE_ONNX_ENGINE=True
+      - USE_OPENVINO=True
+      
+      # Recognition Settings
+      - ONNX_MODEL_NAME=buffalo_l
+      - RECOGNITION_THRESHOLD_ONNX=0.65
+      
+      # Feature Flags
+      - LIVENESS_CHECK_ENABLED=True
+      - DEBUG_MODE=False
+      - MATCH_ENROLLMENT_MODE=True
+      
+      # Logging
+      - LOG_LEVEL=INFO
+      - ENABLE_PERFORMANCE_LOGGING=True
+      
+      # OpenCV RTSP Settings
+      - OPENCV_FFMPEG_CAPTURE_OPTIONS=rtsp_transport;tcp|rtsp_flags;prefer_tcp
+      - OPENCV_LOG_LEVEL=SILENT
+      - OPENCV_FFMPEG_LOGLEVEL=-8
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    networks:
+      - attendance-network
+    
+    # Resource limits (adjust based on your server)
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+
+networks:
+  attendance-network:
+    driver: bridge
+    name: attendance-net

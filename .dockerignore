@@ -1,0 +1,67 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation (not needed in container)
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+
+# Logs (will be generated in container)
+logs/*.log
+*.log
+
+# Test files
+test_*.py
+check_*.py
+diagnose_*.py
+
+# Batch scripts (Windows-specific)
+*.bat
+*.sh
+
+# Debug files
+DEBUG_*.txt
+FIX_*.md
+
+# Large model files (if already in image)
+models/
+weights/
+
+# Database (will be mounted as volume)
+*.db
+*.db-journal
+
+# Vector database (will be mounted as volume)
+vector_db/
+
+# Employee images (will be mounted as volume)
+Employees Images/
+
+# Docker files
+docker-compose.yml
+Dockerfile
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store

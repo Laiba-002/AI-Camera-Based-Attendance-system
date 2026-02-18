@@ -1,0 +1,46 @@
+# FastAPI Headless Attendance System Requirements
+# Production-optimized for CPU with ONNX Runtime
+
+# FastAPI and dependencies
+fastapi
+uvicorn[standard]
+pydantic
+
+# ONNX Runtime for CPU (10x faster than TensorFlow on CPU)
+onnxruntime
+insightface  # Uses SCRFD (detection) + ArcFace (recognition) ONNX models
+
+# OpenVINO for Intel CPU acceleration (optional but recommended)
+openvino  # Provides OpenVINOExecutionProvider for ONNX
+
+# Core dependencies (NO TensorFlow - pure ONNX for speed)
+opencv-python
+opencv-contrib-python  # For additional CV algorithms
+
+# Image processing
+numpy
+Pillow
+scikit-image  # For image quality checks
+
+# Data processing
+pandas
+
+# Scientific computing (for cosine similarity in custom vector DB)
+scipy
+
+# Utilities
+requests
+
+# Logging and monitoring
+colorlog  # For colored console logs
+python-json-logger  # For structured logging
+
+# Performance optimization
+numba  # JIT compilation for numpy operations
+
+# Anti-spoofing / Liveness detection
+imutils  # Image utilities
+dlib  # Facial landmark detection (optional, for blink detection)
+
+# Note: Uses custom SQLite-based vector database (no ChromaDB needed)
+# Note: Uses built-in SQLite3 (no external DB needed)
