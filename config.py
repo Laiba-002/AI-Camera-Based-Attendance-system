@@ -13,7 +13,7 @@ DATABASE_PATH = os.path.join(BASE_DIR, "attendance.db")
 LOGS_DIR = os.path.join(BASE_DIR, "logs")
 
 # API Configuration for employee enrollment
-API_ENDPOINT = "http://192.168.100.181/api/hrmsEmployee/GetEmployeesWithAttendancePics"
+API_ENDPOINT = "https://stage-api-truebooks.nkutech.com/api/hrmsEmployee/GetEmployeesWithAttendancePics"
 
 # API Configuration
 API_HOST = "0.0.0.0"
