@@ -11,7 +11,9 @@ LABEL version="2.0.0"
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    OMP_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1
 
 # Install system dependencies for OpenCV, ONNX, and RTSP
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -28,6 +30,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Network utilities
     curl \
     wget \
+    \
+    # Build dependencies (required for dlib & insightface)
+    build-essential \
+    cmake \
+    pkg-config \
+    libopenblas-dev \
+    liblapack-dev \
+    \
     # Clean up
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
