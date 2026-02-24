@@ -1,9 +1,9 @@
 # Production Dockerfile for FastAPI AI Attendance System
 # Optimized for ONNX Runtime with OpenVINO support
-FROM python:3.10-slim
+FROM python:3.10-slim-bullseye
 
 # Metadata
-LABEL maintainer="Your Team"
+LABEL maintainer="AI Team"
 LABEL description="AI Attendance System with ONNX Runtime"
 LABEL version="2.0.0"
 
@@ -16,11 +16,11 @@ ENV PYTHONUNBUFFERED=1 \
 # Install system dependencies for OpenCV, ONNX, and RTSP
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # OpenCV dependencies
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
-    libxrender-dev \
+    libxrender1 \
     libgomp1 \
     # FFmpeg for RTSP streaming
     ffmpeg \
