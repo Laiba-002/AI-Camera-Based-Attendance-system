@@ -68,7 +68,7 @@ class FaceRecognitionEngineONNX:
 
             # Only load detection and recognition models (skip landmark_3d_68, landmark_2d_106, genderage)
             self.app = FaceAnalysis(
-                # Use model from config (buffalo_s)
+                # Use model from config (buffalo_l or buffalo_s)
                 name=config.ONNX_MODEL_NAME,
                 allowed_modules=['detection', 'recognition'],
                 providers=providers

@@ -31,6 +31,13 @@ scipy
 # Utilities
 requests
 
+# === PERFORMANCE ADDITION ===
+# PyTurboJPEG: 3-5x faster JPEG encoding for streaming
+# Replaces cv2.imencode for MJPEG stream - noticeable on dual camera setups
+# Install libturbojpeg first: 
+#   Ubuntu: sudo apt-get install libturbojpeg0-dev
+#   Windows: download from https://libjpeg-turbo.org/
+PyTurboJPEG
 # Logging and monitoring
 colorlog  # For colored console logs
 python-json-logger  # For structured logging
