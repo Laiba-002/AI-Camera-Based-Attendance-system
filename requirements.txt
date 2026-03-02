@@ -37,7 +37,7 @@ requests
 # Install libturbojpeg first: 
 #   Ubuntu: sudo apt-get install libturbojpeg0-dev
 #   Windows: download from https://libjpeg-turbo.org/
-PyTurboJPEG
+PyTurboJPEG==1.7.3
 # Logging and monitoring
 colorlog  # For colored console logs
 python-json-logger  # For structured logging
