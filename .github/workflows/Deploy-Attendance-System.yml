@@ -59,5 +59,14 @@ jobs:
       - name: Health Check
         run: |
           echo ">>> Waiting for app to start..."
-          sleep 15
-          curl -f http://localhost:8000/health && echo ">>> App is healthy!" || exit 1
+          for i in {1..20}; do
+            echo "Attempt $i/20..."
+            if curl -sf http://localhost:8000/health; then
+              echo ">>> App is healthy!"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo ">>> Health check failed after 5 minutes!"
+          docker compose -f /var/www/ai-attendance/AI-Camera-Based-Attendance-system/docker-compose.yml logs --tail=20
+          exit 1
