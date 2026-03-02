@@ -15,6 +15,7 @@ services:
       - ./vector_db:/app/vector_db                      # Auto-created by enroll script
       - ./Employees Images:/app/Employees Images        # Auto-created by enroll script
       - ./logs:/app/logs                                # Auto-created by container
+      - ~/.insightface:/root/.insightface              # Cache for insightface models (auto-populated on first run)
     environment:
       # API Configuration
       - API_HOST=0.0.0.0
