@@ -1,0 +1,72 @@
+name: Deploy AI Attendance System
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Production VM
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull latest changes
+        run: |
+          cd /var/www/ai-attendance/AI-Camera-Based-Attendance-system
+          git pull origin main
+
+      - name: Install Python dependencies
+        run: |
+          cd /var/www/ai-attendance/AI-Camera-Based-Attendance-system
+          source venv/bin/activate
+          pip install -r requirements.txt
+          deactivate
+
+      - name: Run Enrollment Script
+        run: |
+          cd /var/www/ai-attendance/AI-Camera-Based-Attendance-system
+          source venv/bin/activate
+          python enroll_from_api.py
+          deactivate
+
+      - name: Check what changed
+        id: changes
+        run: |
+          cd /var/www/ai-attendance/AI-Camera-Based-Attendance-system
+          if git diff --name-only HEAD~1 HEAD | grep -q "requirements.txt\|Dockerfile"; then
+            echo "rebuild=true" >> $GITHUB_OUTPUT
+          else
+            echo "rebuild=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy Docker
+        run: |
+          cd /var/www/ai-attendance/AI-Camera-Based-Attendance-system
+
+          if [ "${{ steps.changes.outputs.rebuild }}" = "true" ]; then
+            echo ">>> Dockerfile or requirements.txt changed — full rebuild..."
+            docker compose down
+            docker compose build
+            docker compose up -d
+          else
+            echo ">>> Only code changed — restarting container..."
+            docker compose down
+            docker compose up -d
+          fi
+
+      - name: Health Check
+        run: |
+          echo ">>> Waiting for app to start..."
+          for i in {1..20}; do
+            echo "Attempt $i/20..."
+            if curl -sf http://localhost:8000/health; then
+              echo ">>> App is healthy!"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo ">>> Health check failed after 5 minutes!"
+          docker compose -f /var/www/ai-attendance/AI-Camera-Based-Attendance-system/docker-compose.yml logs --tail=20
+          exit 1
