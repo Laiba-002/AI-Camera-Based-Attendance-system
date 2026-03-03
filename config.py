@@ -171,8 +171,8 @@ API_VERSION = "2.1.0"
 
 # Camera RTSP URLs
 CAMERA_URLS = {
-    'Punch-In Camera':  'rtsp://AI:AI123456@192.168.100.29:554/Streaming/Channels/201',
-    'Punch-Out Camera': 'rtsp://AI:AI123456@192.168.100.29:554/Streaming/Channels/801',
+    'Punch-In Camera':  'rtsp://AI:AI123456@192.168.100.29:554/Streaming/Channels/202',
+    'Punch-Out Camera': 'rtsp://AI:AI123456@192.168.100.29:554/Streaming/Channels/802',
 }
 
 CAMERA_ACTIONS = {
